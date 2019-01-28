@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.BottomNavigationViewHelper
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -28,6 +29,14 @@ class ProfileActivity : AppCompatActivity() {
             var intent= Intent(this,ProfileSettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
+
+        tvProfilDüzenleButon.setOnClickListener {
+            profileRoot.visibility=View.GONE
+            var transaction=supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.profileContainer,ProfileEditFragment())
+            transaction.addToBackStack("editProfileFragmentEklendi")
+            transaction.commit()
+        }
     }
 
     fun setupNavigationView(){
@@ -37,5 +46,10 @@ class ProfileActivity : AppCompatActivity() {
         var menu=bottomNavigationView.menu
         var menuItem=menu.getItem(ACTIVITY_NO)
         menuItem.setChecked(true)
+    }
+
+    override fun onBackPressed() {
+        profileRoot.visibility=View.VISIBLE
+        super.onBackPressed()
     }
 }
