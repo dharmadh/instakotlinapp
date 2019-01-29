@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.BottomNavigationViewHelper
+import com.sercanevyapan.instakotlinapp.utils.UniversalImageLoader
 import kotlinx.android.synthetic.main.activity_profile.*
 
 
@@ -21,7 +22,13 @@ class ProfileActivity : AppCompatActivity() {
 
         setupToolbar()
         setupNavigationView()
+        setupProfileFoto()
 
+    }
+
+    private fun setupProfileFoto() {
+        val imgURL= "pixelz.cc/wp-content/uploads/2018/07/assassins-creed-odyssey-uhd-4k-wallpaper.jpg"
+        UniversalImageLoader.setImage(imgURL,circleProfileImage,progressBar,"http://")
     }
 
     private fun setupToolbar() {

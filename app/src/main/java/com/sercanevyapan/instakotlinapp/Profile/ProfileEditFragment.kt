@@ -31,7 +31,7 @@ class ProfileEditFragment : Fragment() {
 
         circleProfileImageFragment=view.findViewById(R.id.circleProfileImage)
 
-        initImageLoader()
+
         setupProfilePicture()
 
         view.imgClose.setOnClickListener {
@@ -41,12 +41,7 @@ class ProfileEditFragment : Fragment() {
         return view
     }
 
-    private fun initImageLoader(){
 
-        var universalImageLoader=UniversalImageLoader(activity!!)
-        ImageLoader.getInstance().init(universalImageLoader.config)
-
-    }
 
     private fun setupProfilePicture() {
         //http://icons.iconarchive.com/icons/danleech/simple/1024/android-icon.png
