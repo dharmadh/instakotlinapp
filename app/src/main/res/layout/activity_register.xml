@@ -24,60 +24,88 @@
             android:id="@+id/tvTelefon" android:textStyle="bold"
             android:textColor="@color/siyah" android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile" app:layout_constraintStart_toStartOf="parent"
-            android:textSize="20sp" android:layout_marginStart="60dp"/>
+            android:textSize="18sp" android:layout_marginStart="64dp"/>
     <TextView
             android:text="E-POSTA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView22" android:textSize="20sp"
+            android:id="@+id/tvEposta" android:textSize="18sp"
             android:textStyle="bold" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="64dp" android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile"/>
 
-    <View android:layout_width="180dp" android:layout_height="2dp"
-          android:background="@color/siyah"
-          android:visibility="gone"
-          app:layout_constraintStart_toStartOf="@+id/textView22"
-          app:layout_constraintEnd_toEndOf="@+id/textView22"
-          android:id="@+id/viewE-posta"
-          app:layout_constraintHorizontal_bias="0.322"
-          android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView22"></View>
-
     <View android:layout_width="0dp" android:layout_height="2dp"
           android:background="@color/golgelik"
           android:id="@+id/uzungölgelik"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/textView22"
+          app:layout_constraintStart_toStartOf="@+id/etGirisYöntemi"
+          app:layout_constraintTop_toBottomOf="@+id/tvEposta"
           android:layout_marginTop="8dp"
-          app:layout_constraintEnd_toEndOf="parent"></View>
-    <View android:layout_width="230dp" android:layout_height="2dp"
+          app:layout_constraintEnd_toEndOf="@+id/etGirisYöntemi"></View>
+    <View android:layout_width="175dp" android:layout_height="2dp"
           android:background="@color/siyah"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintEnd_toEndOf="@+id/tvTelefon"
+          android:visibility="invisible"
+          android:id="@+id/viewEposta"
+          android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/tvEposta"
+          app:layout_constraintEnd_toEndOf="@+id/uzungölgelik"></View>
+
+    <View android:layout_width="175dp" android:layout_height="2dp"
+          android:background="@color/siyah"
+          app:layout_constraintStart_toStartOf="@+id/etGirisYöntemi"
           android:id="@+id/viewTelefon"
           android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/tvTelefon"
-          android:layout_marginStart="8dp"></View>
+    ></View>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textPersonName|number"
             android:ems="10"
-            android:id="@+id/editText5"
+            android:id="@+id/etGirisYöntemi"
             android:background="@drawable/register_edit_text"
             android:padding="14dp"
-            app:layout_constraintTop_toBottomOf="@+id/uzungölgelik" android:layout_marginStart="16dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/uzungölgelik"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent" android:hint="Telefon"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Telefon"/>
     <Button
             android:text="İleri"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
+            android:enabled="false"
             android:textColor="@color/sonukmavi"
             android:background="@drawable/register_button"
-            android:id="@+id/button" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            android:id="@+id/btnIleri" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/editText5"/>
+            app:layout_constraintTop_toBottomOf="@+id/etGirisYöntemi"/>
+
+    <View android:layout_width="0dp"
+          android:layout_height="2dp"
+          android:id="@+id/golgelik"
+          android:background="@color/golgelik"
+          app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginBottom="50dp"
+          app:layout_constraintBottom_toBottomOf="parent"></View>
+    <TextView
+            android:text="Hesabınız zaten var mı?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="80dp"
+            app:layout_constraintEnd_toStartOf="@+id/tvGirisYap" android:layout_marginEnd="24dp"/>
+    <TextView
+            android:text="Giriş Yap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvGirisYap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/siyah"
+            android:layout_marginEnd="80dp" app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
