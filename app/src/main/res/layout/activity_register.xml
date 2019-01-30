@@ -18,7 +18,7 @@
                 android:id="@+id/imgProfile"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="32dp" android:layout_marginStart="116dp"
-                android:src="@drawable/ic_profile_logo"
+                android:src="@drawable/profil_image_logo"
                 app:civ_border_color="@color/siyah"
                 app:civ_border_width="2dp"/>
         <TextView
