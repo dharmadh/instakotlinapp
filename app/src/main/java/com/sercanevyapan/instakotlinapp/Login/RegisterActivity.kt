@@ -2,14 +2,17 @@ package com.sercanevyapan.instakotlinapp.Login
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.TransactionTooLargeException
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.InputDevice
 import android.view.View
+import android.widget.Toast
 import com.sercanevyapan.instakotlinapp.R
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -68,8 +71,31 @@ class RegisterActivity : AppCompatActivity() {
                     btnIleri.setBackgroundResource(R.drawable.register_button)
                 }
             }
-
-
         })
+
+        btnIleri.setOnClickListener {
+           if(etGirisYöntemi.hint.toString().equals("Telefon")){
+
+               loginRoot.visibility=View.GONE
+               loginContainer.visibility=View.VISIBLE
+               var transaction=supportFragmentManager.beginTransaction()
+               transaction.replace(R.id.loginContainer,TelefonKoduGirFragment())
+               transaction.addToBackStack("telefonKoduGirFragmentEklendi")
+               transaction.commit()
+
+           }else{
+               loginRoot.visibility=View.GONE
+               loginContainer.visibility=View.VISIBLE
+               var transaction=supportFragmentManager.beginTransaction()
+               transaction.replace(R.id.loginContainer,EmailGirisYontemiFragment())
+               transaction.addToBackStack("emailileGirisFragmentEklendi")
+               transaction.commit()
+           }
+        }
+    }
+
+    override fun onBackPressed() {
+        loginRoot.visibility=View.VISIBLE
+        super.onBackPressed()
     }
 }
