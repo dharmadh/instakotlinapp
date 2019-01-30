@@ -29,9 +29,9 @@ class RegisterActivity : AppCompatActivity() {
             etGirisYöntemi.inputType=InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             etGirisYöntemi.setHint("E-posta")
 
-            btnIleri.isEnabled=false;
+            btnIleri.isEnabled=false
             btnIleri.setTextColor(ContextCompat.getColor(this@RegisterActivity,R.color.sonukmavi))
-            btnIleri.setBackgroundColor(R.drawable.register_button)
+            btnIleri.setBackgroundResource(R.drawable.register_button)
         }
 
         tvTelefon.setOnClickListener {
@@ -41,9 +41,9 @@ class RegisterActivity : AppCompatActivity() {
             etGirisYöntemi.inputType=InputType.TYPE_CLASS_NUMBER
             etGirisYöntemi.setHint("Telefon")
 
-            btnIleri.isEnabled=false;
+            btnIleri.isEnabled=false
             btnIleri.setTextColor(ContextCompat.getColor(this@RegisterActivity,R.color.sonukmavi))
-            btnIleri.setBackgroundColor(R.drawable.register_button)
+            btnIleri.setBackgroundResource(R.drawable.register_button)
         }
 
         etGirisYöntemi.addTextChangedListener(object : TextWatcher{
@@ -58,14 +58,14 @@ class RegisterActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(start+before+count>=10){
 
-                    btnIleri.isEnabled=true;
+                    btnIleri.isEnabled=true
                     btnIleri.setTextColor(ContextCompat.getColor(this@RegisterActivity,R.color.beyaz))
-                    btnIleri.setBackgroundColor(R.drawable.register_button_aktif)
+                    btnIleri.setBackgroundResource(R.drawable.register_button_aktif)
 
                 }else{
-                    btnIleri.isEnabled=false;
+                    btnIleri.isEnabled=false
                     btnIleri.setTextColor(ContextCompat.getColor(this@RegisterActivity,R.color.sonukmavi))
-                    btnIleri.setBackgroundColor(R.drawable.register_button)
+                    btnIleri.setBackgroundResource(R.drawable.register_button)
                 }
             }
 
