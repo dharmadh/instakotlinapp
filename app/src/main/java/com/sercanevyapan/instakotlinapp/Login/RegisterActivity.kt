@@ -11,11 +11,9 @@ import android.view.InputDevice
 import android.view.View
 import android.widget.Toast
 import com.sercanevyapan.instakotlinapp.R
-import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_register.*
-import org.greenrobot.eventbus.EventBus
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -84,7 +82,6 @@ class RegisterActivity : AppCompatActivity() {
                transaction.replace(R.id.loginContainer,TelefonKoduGirFragment())
                transaction.addToBackStack("telefonKoduGirFragmentEklendi")
                transaction.commit()
-               EventBus.getDefault().postSticky(EventbusDataEvents.TelefonNoGonder(etGirisYöntemi.text.toString()))
 
            }else{
                loginRoot.visibility=View.GONE
@@ -93,7 +90,6 @@ class RegisterActivity : AppCompatActivity() {
                transaction.replace(R.id.loginContainer,EmailGirisYontemiFragment())
                transaction.addToBackStack("emailileGirisFragmentEklendi")
                transaction.commit()
-               EventBus.getDefault().postSticky(EventbusDataEvents.EmailGonder(etGirisYöntemi.text.toString()))
            }
         }
     }

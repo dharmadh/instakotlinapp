@@ -19,8 +19,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\SERCAN\Desktop\profile_image3.png" />
-                                      <entry key="outputName" value="ic_profile_logo" />
+                                      <entry key="imageAsset" value="C:\Users\Hp\Desktop\icon_profil.png" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="000000" />
                                     </map>
@@ -41,6 +40,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>
