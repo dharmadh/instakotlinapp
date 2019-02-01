@@ -2,7 +2,7 @@ package com.sercanevyapan.instakotlinapp.Login
 
 
 import android.content.Context
-import android.icu.util.TimeUnit
+
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -16,11 +16,14 @@ import com.google.firebase.auth.PhoneAuthProvider
 
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
-import kotlinx.android.synthetic.main.fragment_telefon_kodu_gir.*
 import kotlinx.android.synthetic.main.fragment_telefon_kodu_gir.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import java.util.concurrent.TimeUnit.SECONDS
+import java.util.concurrent.TimeUnit
+
+
+
+
 
 
 /**
@@ -30,7 +33,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 class TelefonKoduGirFragment : Fragment() {
 
     var gelenTelNo = ""
-    lateinit var callbacks:PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    lateinit var mCallbacks:PhoneAuthProvider.OnVerificationStateChangedCallbacks
     var verificationID = ""
     var gelenKod=""
 
@@ -59,15 +62,15 @@ class TelefonKoduGirFragment : Fragment() {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             gelenTelNo,        // Phone number to verify
             60,                 // Timeout duration
-            SECONDS,   // Unit of timeout
-            this.activity!!,               // Activity (for callback binding)
-            callbacks)        // OnVerificationStateChangedCallbacks
+            TimeUnit.SECONDS,   // Unit of timeout
+            this!!.activity!!,               // Activity (for callback binding)
+            mCallbacks)        // OnVerificationStateChangedCallbacks
 
         return view
     }
 
     private fun setupCallBack() {
-        callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 gelenKod = credential.smsCode!!

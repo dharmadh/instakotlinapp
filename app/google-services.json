@@ -67,6 +67,14 @@
           }
         },
         {
+          "client_id": "763418932348-t57d3h561j7hh0fidba1auuq97andua6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sercanevyapan.instakotlinapp",
+            "certificate_hash": "f6320bf1b993dad892630cf6034afa7542f2f255"
+          }
+        },
+        {
           "client_id": "763418932348-rcekqrvq7ui4pq75mqr7ul323rh44pis.apps.googleusercontent.com",
           "client_type": 3
         }
