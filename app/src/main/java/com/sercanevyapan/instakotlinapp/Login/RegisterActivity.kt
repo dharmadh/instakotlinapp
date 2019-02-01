@@ -1,8 +1,10 @@
 package com.sercanevyapan.instakotlinapp.Login
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.TransactionTooLargeException
+import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputType
@@ -17,11 +19,17 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
+
+    lateinit var manager:FragmentManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        manager=supportFragmentManager
+        manager.addOnBackStackChangedListener(this)
 
         init()
     }
@@ -90,7 +98,7 @@ class RegisterActivity : AppCompatActivity() {
                loginRoot.visibility=View.GONE
                loginContainer.visibility=View.VISIBLE
                var transaction=supportFragmentManager.beginTransaction()
-               transaction.replace(R.id.loginContainer,EmailGirisYontemiFragment())
+               transaction.replace(R.id.loginContainer, KayitFragment())
                transaction.addToBackStack("emailileGirisFragmentEklendi")
                transaction.commit()
                EventBus.getDefault().postSticky(EventbusDataEvents.EmailGonder(etGirisYöntemi.text.toString()))
@@ -98,8 +106,13 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        loginRoot.visibility=View.VISIBLE
-        super.onBackPressed()
+    override fun onBackStackChanged() {
+        val elemanSayisi= manager.backStackEntryCount
+
+        if(elemanSayisi==0){
+            loginRoot.visibility=View.VISIBLE
+        }
     }
+
+
 }

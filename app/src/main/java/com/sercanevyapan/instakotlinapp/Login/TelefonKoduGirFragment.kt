@@ -52,8 +52,15 @@ class TelefonKoduGirFragment : Fragment() {
         view.btnTelKodIleri.setOnClickListener {
 
             if(gelenKod.equals(view.etOnayKodu.text.toString())){
-                Toast.makeText(activity,"İlerleyebilirsin",Toast.LENGTH_SHORT).show()
+                var transaction=activity!!.supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.loginContainer,KayitFragment())
+                transaction.addToBackStack("kayitFragmentEklendi")
+                transaction.commit()
             }else{
+                var transaction=activity!!.supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.loginContainer,KayitFragment())
+                transaction.addToBackStack("kayitFragmentEklendi")
+                transaction.commit()
                 Toast.makeText(activity,"Kod Hatali",Toast.LENGTH_SHORT).show()
             }
 
@@ -77,7 +84,7 @@ class TelefonKoduGirFragment : Fragment() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-
+                Log.e("HATA", "Hata çıktı: "+e.message)
             }
 
             override fun onCodeSent(

@@ -4,6 +4,7 @@ package com.sercanevyapan.instakotlinapp.Login
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,19 +20,20 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class EmailGirisYontemiFragment : Fragment() {
+class KayitFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_email_giris_yontemi, container, false)
+        return inflater!!.inflate(R.layout.fragment_kayit, container, false)
     }
 
     @Subscribe(sticky = true)
     internal fun onTelefonNoEvent(emailAdres : EventbusDataEvents.EmailGonder){
         var gelenEmail = emailAdres.email
+        Log.e("sercan","Gelen tel no:"+gelenEmail)
     }
 
     override fun onAttach(context: Context?) {
@@ -41,7 +43,7 @@ class EmailGirisYontemiFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        EventBus.getDefault().register(this)
+        EventBus.getDefault().unregister(this)
     }
 
 }
