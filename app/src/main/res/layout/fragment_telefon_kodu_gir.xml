@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
 
-             tools:context=".Login.TelefonKoduGirFragment">
+                                             tools:context=".Login.TelefonKoduGirFragment"
+                                             android:id="@+id/pbTelNoOnay">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -54,4 +56,12 @@
             android:textAllCaps="false"
             android:textColor="@color/sonukmavi"
             android:background="@drawable/register_button"/>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/pbTelNoOnayla"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnTelKodIleri"/>
 </android.support.constraint.ConstraintLayout>
