@@ -16,6 +16,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_telefon_kodu_gir.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -52,15 +53,12 @@ class TelefonKoduGirFragment : Fragment() {
         view.btnTelKodIleri.setOnClickListener {
 
             if(gelenKod.equals(view.etOnayKodu.text.toString())){
+                EventBus.getDefault().postSticky(EventbusDataEvents.KayitBilgileriniGonder(gelenTelNo,null,verificationID,gelenKod,false))
                 var transaction=activity!!.supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.loginContainer,KayitFragment())
                 transaction.addToBackStack("kayitFragmentEklendi")
                 transaction.commit()
             }else{
-                var transaction=activity!!.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.loginContainer,KayitFragment())
-                transaction.addToBackStack("kayitFragmentEklendi")
-                transaction.commit()
                 Toast.makeText(activity,"Kod Hatali",Toast.LENGTH_SHORT).show()
             }
 
@@ -97,8 +95,8 @@ class TelefonKoduGirFragment : Fragment() {
     }
 
     @Subscribe (sticky = true)
-    internal fun onTelefonNoEvent(telefonNumarasi : EventbusDataEvents.TelefonNoGonder){
-        gelenTelNo = telefonNumarasi.telNo
+    internal fun onTelefonNoEvent(kayitBilgileri : EventbusDataEvents.KayitBilgileriniGonder){
+        gelenTelNo = kayitBilgileri.telNo!!
         Log.e("sercan","Gelen No"+gelenTelNo)
     }
 
