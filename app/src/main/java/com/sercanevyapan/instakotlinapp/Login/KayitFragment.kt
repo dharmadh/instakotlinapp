@@ -103,11 +103,28 @@ class KayitFragment : Fragment() {
 
                 var sifre=view.etSifre.text.toString()
                 var sahteEmail = telNo + "@sercan.com"
+                var adSoyad=view.etAdSoyad.text.toString()
+                var userName=view.etKullaniciAdi.text.toString()
                 mAuth.createUserWithEmailAndPassword(sahteEmail,sifre)
                     .addOnCompleteListener(object : OnCompleteListener<AuthResult>{
                         override fun onComplete(p0: Task<AuthResult>) {
                             if(p0!!.isSuccessful){
                                 Toast.makeText(activity,"Oturum tel no ile açıldı Uid:"+mAuth.currentUser!!.uid,Toast.LENGTH_SHORT).show()
+
+                                var userID=mAuth.currentUser!!.uid.toString()
+                                // oturum açan kullanıcının verilerini database'e kaydedelim...
+                                var kaydedilecekKullanici= Users(sifre,userName,adSoyad,telNo,sahteEmail,userID)
+
+                                mRef.child("users").child(userID).setValue(kaydedilecekKullanici)
+                                    .addOnCompleteListener(object : OnCompleteListener<Void>{
+                                        override fun onComplete(p0: Task<Void>) {
+                                            if(p0!!.isSuccessful){
+                                                Toast.makeText(activity,"Kullanıcı kaydedildi",Toast.LENGTH_SHORT).show()
+                                            }else{
+                                                Toast.makeText(activity,"Kullanıcı kaydedilemedi",Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    })
                             }else{
                                 Toast.makeText(activity,"Oturum açılamadı :"+p0!!.exception,Toast.LENGTH_SHORT).show()
                             }
