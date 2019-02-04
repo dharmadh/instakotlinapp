@@ -93,6 +93,7 @@ class TelefonKoduGirFragment : Fragment() {
             override fun onVerificationFailed(e: FirebaseException) {
                 Log.e("HATA", "Hata çıktı: "+e.message)
                 progressBar.visibility=View.INVISIBLE
+
             }
 
             override fun onCodeSent(

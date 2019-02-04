@@ -2,7 +2,6 @@ package com.sercanevyapan.instakotlinapp.Login
 
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -16,14 +15,13 @@ import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.sercanevyapan.instakotlinapp.Models.Users
 
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
-import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_kayit.*
 import kotlinx.android.synthetic.main.fragment_kayit.view.*
 import org.greenrobot.eventbus.EventBus
@@ -53,7 +51,13 @@ class KayitFragment : Fragment() {
         var view = inflater!!.inflate(R.layout.fragment_kayit, container, false)
 
         mAuth = FirebaseAuth.getInstance()
+
         mRef= FirebaseDatabase.getInstance().reference
+
+        if(mAuth.currentUser != null){
+            mAuth.signOut()
+        }
+
         view.etAdSoyad.addTextChangedListener(watcher)
         view.etKullaniciAdi.addTextChangedListener(watcher)
         view.etSifre.addTextChangedListener(watcher)
@@ -64,12 +68,30 @@ class KayitFragment : Fragment() {
             if(emailIleKayitIslemi){
 
                 var sifre=view.etSifre.text.toString()
+                var adSoyad=view.etAdSoyad.text.toString()
+                var userName=view.etKullaniciAdi.text.toString()
+
 
                 mAuth.createUserWithEmailAndPassword(gelenEmail,sifre)
                     .addOnCompleteListener(object : OnCompleteListener<AuthResult>{
                         override fun onComplete(p0: Task<AuthResult>) {
                             if(p0!!.isSuccessful){
-                                Toast.makeText(activity,"Oturum açıldı",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(activity,"Oturum email ile açıldı:"+mAuth.currentUser!!.uid,Toast.LENGTH_SHORT).show()
+
+                                var userID=mAuth.currentUser!!.uid.toString()
+                                // oturum açan kullanıcının verilerini database'e kaydedelim...
+                                var kaydedilecekKullanici= Users(gelenEmail,sifre,userName,adSoyad,userID)
+
+                                mRef.child("users").child(userID).setValue(kaydedilecekKullanici)
+                                    .addOnCompleteListener(object : OnCompleteListener<Void>{
+                                        override fun onComplete(p0: Task<Void>) {
+                                            if(p0!!.isSuccessful){
+                                               Toast.makeText(activity,"Kullanıcı kaydedildi",Toast.LENGTH_SHORT).show()
+                                            }else{
+                                                Toast.makeText(activity,"Kullanıcı kaydedilemedi",Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    })
                             }else{
                                 Toast.makeText(activity,"Oturum açılamadı :"+p0!!.exception,Toast.LENGTH_SHORT).show()
                             }
@@ -78,6 +100,20 @@ class KayitFragment : Fragment() {
                     })
             //kullanıcı telefon no ile kayıt olmak istiyor
             }else{
+
+                var sifre=view.etSifre.text.toString()
+                var sahteEmail = telNo + "@sercan.com"
+                mAuth.createUserWithEmailAndPassword(sahteEmail,sifre)
+                    .addOnCompleteListener(object : OnCompleteListener<AuthResult>{
+                        override fun onComplete(p0: Task<AuthResult>) {
+                            if(p0!!.isSuccessful){
+                                Toast.makeText(activity,"Oturum tel no ile açıldı Uid:"+mAuth.currentUser!!.uid,Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(activity,"Oturum açılamadı :"+p0!!.exception,Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                    })
 
             }
 
