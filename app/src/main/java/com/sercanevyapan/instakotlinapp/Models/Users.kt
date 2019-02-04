@@ -12,22 +12,8 @@ class Users {
 
     constructor() {}
 
-    constructor(email: String, password: String, user_name: String, adi_soyadi: String,user_id:String) {
+    constructor(email: String, password: String, user_name: String, adi_soyadi: String,phone_number: String, email_phone_number: String,user_id:String) {
         this.email = email
-        this.password = password
-        this.user_name = user_name
-        this.adi_soyadi = adi_soyadi
-        this.user_id = user_id
-    }
-
-    constructor(
-        password: String,
-        user_name: String,
-        adi_soyadi: String,
-        phone_number: String,
-        email_phone_number: String,
-        user_id: String
-    ) {
         this.password = password
         this.user_name = user_name
         this.adi_soyadi = adi_soyadi
