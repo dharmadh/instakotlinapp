@@ -41,7 +41,6 @@
                         <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="30dp"
-                                app:srcCompat="@drawable/logo"
                                 android:id="@+id/imgLogo"
                                 app:layout_constraintStart_toEndOf="@+id/imgTabCamera"
                                 android:layout_marginStart="8dp"

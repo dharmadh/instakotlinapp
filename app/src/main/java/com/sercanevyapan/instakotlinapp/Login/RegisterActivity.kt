@@ -13,7 +13,9 @@ import android.text.TextWatcher
 import android.view.InputDevice
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.sercanevyapan.instakotlinapp.Home.HomeActivity
 import com.sercanevyapan.instakotlinapp.Models.Users
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
@@ -26,12 +28,17 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
 
     lateinit var manager:FragmentManager
     lateinit var mRef:DatabaseReference
+    lateinit var mAuth: FirebaseAuth
+    lateinit var mAuthListener:FirebaseAuth.AuthStateListener
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        setupAuthListener()
+
+        mAuth=FirebaseAuth.getInstance()
         mRef=FirebaseDatabase.getInstance().reference
 
         manager=supportFragmentManager
@@ -45,6 +52,7 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
         tvGirisYap.setOnClickListener {
             var intent = Intent(this@RegisterActivity,LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
+            finish()
         }
 
         tvEposta.setOnClickListener {
@@ -206,6 +214,35 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
             return false
         }
         return android.util.Patterns.PHONE.matcher(kontrolEdilecekTelefon).matches()
+    }
+
+    private fun setupAuthListener() {
+        mAuthListener=object : FirebaseAuth.AuthStateListener{
+            override fun onAuthStateChanged(p0: FirebaseAuth) {
+                var user = FirebaseAuth.getInstance().currentUser
+
+                if(user != null){
+                    var intent= Intent(this@RegisterActivity, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    startActivity(intent)
+                    finish()
+                }else{
+
+                }
+            }
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth.addAuthStateListener(mAuthListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(mAuthListener!=null){
+            mAuth.removeAuthStateListener(mAuthListener)
+        }
     }
 
 }
