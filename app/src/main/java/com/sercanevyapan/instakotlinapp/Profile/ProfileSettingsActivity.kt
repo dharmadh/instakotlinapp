@@ -32,11 +32,9 @@ class ProfileSettingsActivity : AppCompatActivity() {
         }
 
         tvCikisYap.setOnClickListener {
-            profileSettingsRoot.visibility=View.GONE
-            var transaction=supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.profileSettingsContainer,SignOutFragment())
-            transaction.addToBackStack("signOutFragmentEklendi")
-            transaction.commit()
+            var dialog=SignOutFragment()
+            dialog.show(supportFragmentManager,"cikisYapDialogGoster")
+
         }
     }
 

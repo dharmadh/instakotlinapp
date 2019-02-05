@@ -1,8 +1,11 @@
 package com.sercanevyapan.instakotlinapp.Home
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.google.firebase.auth.FirebaseAuth
 import com.nostra13.universalimageloader.core.ImageLoader
+import com.sercanevyapan.instakotlinapp.Login.LoginActivity
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.BottomNavigationViewHelper
 import com.sercanevyapan.instakotlinapp.utils.HomePagerAdapter
@@ -14,13 +17,21 @@ class HomeActivity : AppCompatActivity() {
     private val ACTIVITY_NO=0
     private val TAG="HomeActivity"
 
+    lateinit var mAuth: FirebaseAuth
+    lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
+        setupAuthListener()
+        mAuth = FirebaseAuth.getInstance()
+
         initImageLoader()
         setupNavigationView()
         setupHomeViewPager()
+
 
     }
 
@@ -51,5 +62,35 @@ class HomeActivity : AppCompatActivity() {
         var universalImageLoader= UniversalImageLoader(this)
         ImageLoader.getInstance().init(universalImageLoader.config)
 
+    }
+
+    private fun setupAuthListener() {
+        mAuthListener=object :FirebaseAuth.AuthStateListener{
+            override fun onAuthStateChanged(p0: FirebaseAuth) {
+                var user = FirebaseAuth.getInstance().currentUser
+
+                if(user == null){
+                    var intent= Intent(this@HomeActivity,LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK )
+                    startActivity(intent)
+                    finish()
+                }else{
+
+                }
+            }
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth.addAuthStateListener(mAuthListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(mAuthListener!=null){
+            mAuth.removeAuthStateListener(mAuthListener)
+        }
     }
 }
