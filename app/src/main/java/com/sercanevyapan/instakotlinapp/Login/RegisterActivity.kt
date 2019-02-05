@@ -1,6 +1,7 @@
 package com.sercanevyapan.instakotlinapp.Login
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.TransactionTooLargeException
@@ -40,6 +41,12 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
     }
 
     private fun init() {
+
+        tvGirisYap.setOnClickListener {
+            var intent = Intent(this@RegisterActivity,LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+        }
+
         tvEposta.setOnClickListener {
             viewTelefon.visibility= View.INVISIBLE
             viewEposta.visibility=View.VISIBLE

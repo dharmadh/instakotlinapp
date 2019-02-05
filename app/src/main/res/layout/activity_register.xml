@@ -10,18 +10,19 @@
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:id="@+id/loginRoot"
-            app:layout_constraintEnd_toEndOf="@+id/viewTelefon"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/loginContainer">
+            app:layout_constraintStart_toStartOf="@+id/loginContainer" app:layout_constraintEnd_toEndOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView android:layout_width="150dp"
                                                       android:layout_height="150dp" android:id="@+id/img"
-                                                      android:layout_marginTop="36dp"
-                                                      app:civ_border_width="6dp"
+                                                      android:layout_marginTop="32dp"
+                                                      app:civ_border_width="1dp"
+                                                      app:civ_border_color="@color/sonukmavi"
                                                       app:layout_constraintTop_toTopOf="parent"
                                                       app:layout_constraintEnd_toEndOf="parent"
-                                                      android:layout_marginEnd="132dp"
-                                                      android:scaleType="centerCrop"/>
+                                                      android:scaleType="centerCrop" android:src="@drawable/logo2"
+                                                      app:layout_constraintStart_toStartOf="parent"
+        />
 
         <TextView
                 android:text="@string/telefon"
