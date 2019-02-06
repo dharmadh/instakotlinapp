@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.sercanevyapan.instakotlinapp.Login.LoginActivity
+import com.sercanevyapan.instakotlinapp.Models.Users
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.BottomNavigationViewHelper
 import com.sercanevyapan.instakotlinapp.utils.UniversalImageLoader
@@ -20,6 +23,8 @@ class ProfileActivity : AppCompatActivity() {
 
     lateinit var mAuth: FirebaseAuth
     lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+    lateinit var mUser:FirebaseUser
+    lateinit var mRef:DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +32,35 @@ class ProfileActivity : AppCompatActivity() {
 
         setupAuthListener()
         mAuth = FirebaseAuth.getInstance()
+        mUser=mAuth.currentUser!!
+        mRef=FirebaseDatabase.getInstance().reference
+
 
         setupToolbar()
         setupNavigationView()
+        kullaniciBilgilriniGetir()
         setupProfileFoto()
+
+    }
+
+    private fun kullaniciBilgilriniGetir() {
+
+        mRef.child("users").child(mUser!!.uid).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError?) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+
+                if(p0!!.getValue()!=null){
+                    var okunanKullanıcıBilgileri=p0!!.getValue(Users::class.java)
+
+                    tvProfilAdiToolbar.setText(okunanKullanıcıBilgileri!!.user_name)
+                }
+
+            }
+
+        })
 
     }
 
@@ -69,6 +99,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupAuthListener() {
+
+
+
         mAuthListener=object :FirebaseAuth.AuthStateListener{
             override fun onAuthStateChanged(p0: FirebaseAuth) {
                 var user = FirebaseAuth.getInstance().currentUser
@@ -79,7 +112,7 @@ class ProfileActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }else{
-
+                    mUser=mAuth.currentUser!!
                 }
             }
 
