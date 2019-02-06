@@ -16,7 +16,7 @@
             app:civ_border_color="@color/sonukmavi"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="centerCrop" android:src="@drawable/logo2"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
     />
     <EditText

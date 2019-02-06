@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.sercanevyapan.instakotlinapp.Models.UserDetails
 import com.sercanevyapan.instakotlinapp.Models.Users
 
 import com.sercanevyapan.instakotlinapp.R
@@ -58,9 +59,6 @@ class KayitFragment : Fragment() {
 
         mRef= FirebaseDatabase.getInstance().reference
 
-        if(mAuth.currentUser != null){
-            mAuth.signOut()
-        }
 
         view.tvGirisYap.setOnClickListener {
             var intent = Intent(activity,LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -108,8 +106,10 @@ class KayitFragment : Fragment() {
                                                 Toast.makeText(activity,"Oturum email ile açıldı:"+mAuth.currentUser!!.uid,Toast.LENGTH_SHORT).show()
 
                                                 var userID=mAuth.currentUser!!.uid.toString()
+
                                                 // oturum açan kullanıcının verilerini database'e kaydedelim...
-                                                var kaydedilecekKullanici= Users(gelenEmail,sifre,userName,adSoyad,"","",userID)
+                                                var kaydedilecekKullaniciDetaylari=UserDetails("0","0","0","","","")
+                                                var kaydedilecekKullanici= Users(gelenEmail,sifre,userName,adSoyad,"","",userID,kaydedilecekKullaniciDetaylari)
 
                                                 mRef.child("users").child(userID).setValue(kaydedilecekKullanici)
                                                     .addOnCompleteListener(object : OnCompleteListener<Void>{
@@ -153,7 +153,8 @@ class KayitFragment : Fragment() {
 
                                                 var userID=mAuth.currentUser!!.uid.toString()
                                                 // oturum açan kullanıcının verilerini database'e kaydedelim...
-                                                var kaydedilecekKullanici= Users("",sifre,userName,adSoyad,telNo,sahteEmail,userID)
+                                                var kaydedilecekKullaniciDetaylari=UserDetails("0","0","0","","","")
+                                                var kaydedilecekKullanici= Users("",sifre,userName,adSoyad,telNo,sahteEmail,userID,kaydedilecekKullaniciDetaylari)
 
                                                 mRef.child("users").child(userID).setValue(kaydedilecekKullanici)
                                                     .addOnCompleteListener(object : OnCompleteListener<Void>{
