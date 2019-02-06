@@ -175,7 +175,6 @@
                 android:textColor="@color/siyah"/>
 
         <TextView
-                android:text="İnşaat Mühendisi"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvBiyografi"
@@ -212,7 +211,6 @@
                 app:layout_constraintStart_toStartOf="@+id/circleProfileImage" android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/circleProfileImage"/>
         <TextView
-                android:text="TextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvWebSitesi" android:layout_marginStart="16dp"

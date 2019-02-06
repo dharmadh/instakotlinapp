@@ -56,6 +56,22 @@ class ProfileActivity : AppCompatActivity() {
                     var okunanKullanıcıBilgileri=p0!!.getValue(Users::class.java)
 
                     tvProfilAdiToolbar.setText(okunanKullanıcıBilgileri!!.user_name)
+                    tvProfilGercekAd.setText(okunanKullanıcıBilgileri!!.adi_soyadi)
+                    tvFollowerSayisi.setText(okunanKullanıcıBilgileri!!.user_detail!!.follower)
+                    tvFollowingSayisi.setText(okunanKullanıcıBilgileri!!.user_detail!!.following)
+                    tvPostSayisi.setText(okunanKullanıcıBilgileri!!.user_detail!!.post)
+
+                    var imgURL:String=okunanKullanıcıBilgileri!!.user_detail!!.profile_picture!!
+                    UniversalImageLoader.setImage(imgURL,circleProfileImage,progressBar,"")
+
+                    if(!okunanKullanıcıBilgileri!!.user_detail!!.biography!!.isNullOrEmpty()){
+                        tvBiyografi.visibility=View.VISIBLE
+                        tvBiyografi.setText(okunanKullanıcıBilgileri!!.user_detail!!.biography!!)
+                    }
+                    if(!okunanKullanıcıBilgileri!!.user_detail!!.web_site!!.isNullOrEmpty()){
+                        tvWebSitesi.visibility=View.VISIBLE
+                        tvWebSitesi.setText(okunanKullanıcıBilgileri!!.user_detail!!.web_site!!)
+                    }
                 }
 
             }
