@@ -12,8 +12,10 @@ import com.sercanevyapan.instakotlinapp.Login.LoginActivity
 import com.sercanevyapan.instakotlinapp.Models.Users
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.BottomNavigationViewHelper
+import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
 import com.sercanevyapan.instakotlinapp.utils.UniversalImageLoader
 import kotlinx.android.synthetic.main.activity_profile.*
+import org.greenrobot.eventbus.EventBus
 
 
 class ProfileActivity : AppCompatActivity() {
@@ -54,6 +56,8 @@ class ProfileActivity : AppCompatActivity() {
 
                 if(p0!!.getValue()!=null){
                     var okunanKullanıcıBilgileri=p0!!.getValue(Users::class.java)
+
+                    EventBus.getDefault().postSticky(EventbusDataEvents.KullaniciBilgileriniGonder(okunanKullanıcıBilgileri))
 
                     tvProfilAdiToolbar.setText(okunanKullanıcıBilgileri!!.user_name)
                     tvProfilGercekAd.setText(okunanKullanıcıBilgileri!!.adi_soyadi)

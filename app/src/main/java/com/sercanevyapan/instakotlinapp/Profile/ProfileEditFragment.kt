@@ -1,18 +1,24 @@
 package com.sercanevyapan.instakotlinapp.Profile
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.nostra13.universalimageloader.core.ImageLoader
+import com.sercanevyapan.instakotlinapp.Models.Users
 
 import com.sercanevyapan.instakotlinapp.R
+import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
 import com.sercanevyapan.instakotlinapp.utils.UniversalImageLoader
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile_edit.view.*
-
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 
 /**
@@ -22,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_profile_edit.view.*
 class ProfileEditFragment : Fragment() {
 
     lateinit var circleProfileImageFragment:CircleImageView
+    lateinit var gelenKullaniciBilgileri:Users
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +36,7 @@ class ProfileEditFragment : Fragment() {
 
         val view = inflater!!.inflate(R.layout.fragment_profile_edit, container, false)
 
-        circleProfileImageFragment=view.findViewById(R.id.circleProfileImage)
-
-
-        setupProfilePicture()
+        setupKullaniciBilgileri(view)
 
         view.imgClose.setOnClickListener {
             activity!!.onBackPressed()
@@ -41,14 +45,40 @@ class ProfileEditFragment : Fragment() {
         return view
     }
 
+    private fun setupKullaniciBilgileri(view: View?) {
+
+        view!!.etProfileName.setText(gelenKullaniciBilgileri!!.adi_soyadi)
+        view!!.etUserName.setText(gelenKullaniciBilgileri!!.user_name)
+
+        if(!gelenKullaniciBilgileri!!.user_detail!!.biography!!.isNullOrEmpty()){
+            view!!.etUserBio.setText(gelenKullaniciBilgileri!!.user_detail!!.biography!!)
+        }
+        if(!gelenKullaniciBilgileri!!.user_detail!!.web_site!!.isNullOrEmpty()){
+            view!!.etUserWebSite.setText(gelenKullaniciBilgileri!!.user_detail!!.web_site!!)
+        }
+
+        var imgUrl=gelenKullaniciBilgileri!!.user_detail!!.profile_picture
+        UniversalImageLoader.setImage(imgUrl!!,view!!.circleProfileImage,view!!.progressBar,"")
+    }
+    
+
+    /////////////// EVENTBUS /////////////////////////////
+    @Subscribe(sticky = true)
+    internal fun onKullaniciBilgileriEvent(kullaniciBilgileri : EventbusDataEvents.KullaniciBilgileriniGonder){
+
+        gelenKullaniciBilgileri=kullaniciBilgileri!!.kullanici!!
 
 
-    private fun setupProfilePicture() {
-        //http://icons.iconarchive.com/icons/danleech/simple/1024/android-icon.png
-
-        var imgURL = "icons.iconarchive.com/icons/danleech/simple/1024/android-icon.png"
-        UniversalImageLoader.setImage(imgURL,circleProfileImageFragment,null,"http://")
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        EventBus.getDefault().unregister(this)
+    }
 
 }
