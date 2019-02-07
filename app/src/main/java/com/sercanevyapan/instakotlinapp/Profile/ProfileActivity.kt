@@ -47,7 +47,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun kullaniciBilgilriniGetir() {
 
-        mRef.child("users").child(mUser!!.uid).addListenerForSingleValueEvent(object : ValueEventListener{
+        mRef.child("users").child(mUser!!.uid).addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError?) {
 
             }

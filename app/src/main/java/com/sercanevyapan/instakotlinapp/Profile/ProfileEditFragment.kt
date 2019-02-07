@@ -2,13 +2,16 @@ package com.sercanevyapan.instakotlinapp.Profile
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.firebase.database.*
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.sercanevyapan.instakotlinapp.Models.Users
 
@@ -16,6 +19,7 @@ import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.EventbusDataEvents
 import com.sercanevyapan.instakotlinapp.utils.UniversalImageLoader
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_profile_edit.*
 import kotlinx.android.synthetic.main.fragment_profile_edit.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,6 +33,9 @@ class ProfileEditFragment : Fragment() {
 
     lateinit var circleProfileImageFragment:CircleImageView
     lateinit var gelenKullaniciBilgileri:Users
+    lateinit var myDatabaseRef:DatabaseReference
+
+    val RESIM_SEC=100
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,13 +43,83 @@ class ProfileEditFragment : Fragment() {
 
         val view = inflater!!.inflate(R.layout.fragment_profile_edit, container, false)
 
+        myDatabaseRef=FirebaseDatabase.getInstance().reference
+
         setupKullaniciBilgileri(view)
 
         view.imgClose.setOnClickListener {
             activity!!.onBackPressed()
         }
 
+        view.tvFotografDegistir.setOnClickListener {
+
+            var intent= Intent()
+            intent.setType("image/*")
+            intent.setAction(Intent.ACTION_PICK)
+            startActivityForResult(intent,RESIM_SEC)
+
+        }
+
+        view.imgBtnDeğisiklikleriKaydet.setOnClickListener {
+
+            if (!gelenKullaniciBilgileri!!.adi_soyadi!!.equals(view.etProfileName.text.toString())) {
+                myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("adi_soyadi").setValue(view.etProfileName.text.toString())
+            }
+
+            if (!gelenKullaniciBilgileri!!.user_detail!!.biography!!.equals(view.etUserBio.text.toString())) {
+                myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("biography").setValue(view.etUserBio.text.toString())
+            }
+
+            if (!gelenKullaniciBilgileri!!.user_detail!!.web_site!!.equals(view.etUserWebSite.text.toString())) {
+                myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("web_site").setValue(view.etUserWebSite.text.toString())
+            }
+
+            if(!gelenKullaniciBilgileri!!.user_name!!.equals(view.etUserName.text.toString())){
+                myDatabaseRef.child("users").orderByChild("user_name").addListenerForSingleValueEvent(object :ValueEventListener{
+                    override fun onCancelled(p0: DatabaseError?) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot?) {
+
+                        var userNameKullanimdaMi=false
+
+                        for(ds in p0!!.children){
+                            var okunanKullaniciAdi=ds!!.getValue(Users::class.java)!!.user_name
+
+
+                            if(okunanKullaniciAdi!!.equals(view.etUserName.text.toString())){
+                                Toast.makeText(activity,"Kullanıcı adı kullanımda",Toast.LENGTH_SHORT).show()
+                                userNameKullanimdaMi=true
+                                break
+
+                            }
+                        }
+                        if(userNameKullanimdaMi==false){
+                            myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_name").setValue(view.etUserName.text.toString())
+                        }
+
+                    }
+
+
+                })
+            }
+            Toast.makeText(activity,"Kullanıcı güncellendi", Toast.LENGTH_SHORT).show()
+
+        }
+
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode==RESIM_SEC && resultCode==AppCompatActivity.RESULT_OK && data!!.data!=null ){
+
+            var profilResimURI=data!!.data
+            circleProfileImage.setImageURI(profilResimURI)
+
+        }
     }
 
     private fun setupKullaniciBilgileri(view: View?) {
@@ -60,7 +137,7 @@ class ProfileEditFragment : Fragment() {
         var imgUrl=gelenKullaniciBilgileri!!.user_detail!!.profile_picture
         UniversalImageLoader.setImage(imgUrl!!,view!!.circleProfileImage,view!!.progressBar,"")
     }
-    
+
 
     /////////////// EVENTBUS /////////////////////////////
     @Subscribe(sticky = true)
