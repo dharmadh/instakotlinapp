@@ -3,6 +3,7 @@ package com.sercanevyapan.instakotlinapp.Profile
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.sercanevyapan.instakotlinapp.Models.Users
 
@@ -23,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_profile_edit.*
 import kotlinx.android.synthetic.main.fragment_profile_edit.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.lang.Exception
 
 
 /**
@@ -33,7 +41,10 @@ class ProfileEditFragment : Fragment() {
 
     lateinit var circleProfileImageFragment:CircleImageView
     lateinit var gelenKullaniciBilgileri:Users
-    lateinit var myDatabaseRef:DatabaseReference
+    lateinit var mDatabaseRef:DatabaseReference
+    lateinit var mStorageRef:StorageReference
+
+    var profilPhotoUri:Uri?=null
 
     val RESIM_SEC=100
 
@@ -43,7 +54,8 @@ class ProfileEditFragment : Fragment() {
 
         val view = inflater!!.inflate(R.layout.fragment_profile_edit, container, false)
 
-        myDatabaseRef=FirebaseDatabase.getInstance().reference
+        mDatabaseRef=FirebaseDatabase.getInstance().reference
+        mStorageRef = FirebaseStorage.getInstance().reference
 
         setupKullaniciBilgileri(view)
 
@@ -62,20 +74,25 @@ class ProfileEditFragment : Fragment() {
 
         view.imgBtnDeğisiklikleriKaydet.setOnClickListener {
 
+            var profilGuncellendiMi=false
+
             if (!gelenKullaniciBilgileri!!.adi_soyadi!!.equals(view.etProfileName.text.toString())) {
-                myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("adi_soyadi").setValue(view.etProfileName.text.toString())
+                mDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("adi_soyadi").setValue(view.etProfileName.text.toString())
+                profilGuncellendiMi=true
             }
 
             if (!gelenKullaniciBilgileri!!.user_detail!!.biography!!.equals(view.etUserBio.text.toString())) {
-                myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("biography").setValue(view.etUserBio.text.toString())
+                mDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("biography").setValue(view.etUserBio.text.toString())
+                profilGuncellendiMi=true
             }
 
             if (!gelenKullaniciBilgileri!!.user_detail!!.web_site!!.equals(view.etUserWebSite.text.toString())) {
-                myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("web_site").setValue(view.etUserWebSite.text.toString())
+                mDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("web_site").setValue(view.etUserWebSite.text.toString())
+                profilGuncellendiMi=true
             }
 
             if(!gelenKullaniciBilgileri!!.user_name!!.equals(view.etUserName.text.toString())){
-                myDatabaseRef.child("users").orderByChild("user_name").addListenerForSingleValueEvent(object :ValueEventListener{
+                mDatabaseRef.child("users").orderByChild("user_name").addListenerForSingleValueEvent(object :ValueEventListener{
                     override fun onCancelled(p0: DatabaseError?) {
 
                     }
@@ -96,7 +113,8 @@ class ProfileEditFragment : Fragment() {
                             }
                         }
                         if(userNameKullanimdaMi==false){
-                            myDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_name").setValue(view.etUserName.text.toString())
+                            mDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_name").setValue(view.etUserName.text.toString())
+                            profilGuncellendiMi=true
                         }
 
                     }
@@ -104,7 +122,32 @@ class ProfileEditFragment : Fragment() {
 
                 })
             }
-            Toast.makeText(activity,"Kullanıcı güncellendi", Toast.LENGTH_SHORT).show()
+
+            if(profilPhotoUri != null){
+
+                
+
+                var uploadTask=mStorageRef.child("users").child(gelenKullaniciBilgileri!!.user_id!!).child(profilPhotoUri!!.lastPathSegment).putFile(profilPhotoUri!!)
+                    .addOnCompleteListener(object : OnCompleteListener<UploadTask.TaskSnapshot>{
+                        override fun onComplete(p0: Task<UploadTask.TaskSnapshot>) {
+                            if(p0!!.isSuccessful){
+                                    Toast.makeText(activity,"Resim yüklendi " + p0!!.getResult().downloadUrl.toString(),Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                    })
+                    .addOnFailureListener(object : OnFailureListener{
+                        override fun onFailure(p0: Exception) {
+                            Log.e("HATA", p0!!.message)
+                        }
+
+                    })
+            }
+
+            if(profilGuncellendiMi==true){
+                Toast.makeText(activity,"Kullanıcı güncellendi", Toast.LENGTH_SHORT).show()
+            }
+
 
         }
 
@@ -116,8 +159,8 @@ class ProfileEditFragment : Fragment() {
 
         if(requestCode==RESIM_SEC && resultCode==AppCompatActivity.RESULT_OK && data!!.data!=null ){
 
-            var profilResimURI=data!!.data
-            circleProfileImage.setImageURI(profilResimURI)
+            profilPhotoUri=data!!.data!!
+            circleProfileImage.setImageURI(profilPhotoUri)
 
         }
     }
