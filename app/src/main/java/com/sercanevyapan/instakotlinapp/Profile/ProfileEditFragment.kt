@@ -125,6 +125,9 @@ class ProfileEditFragment : Fragment() {
 
             if(profilPhotoUri != null){
 
+                var dialogYukleniyor=YukleniyorFragment()
+
+                dialogYukleniyor.show(activity!!.supportFragmentManager,"yukleniyorFragmenti")
                 
 
                 var uploadTask=mStorageRef.child("users").child(gelenKullaniciBilgileri!!.user_id!!).child(profilPhotoUri!!.lastPathSegment).putFile(profilPhotoUri!!)
@@ -132,6 +135,12 @@ class ProfileEditFragment : Fragment() {
                         override fun onComplete(p0: Task<UploadTask.TaskSnapshot>) {
                             if(p0!!.isSuccessful){
                                     Toast.makeText(activity,"Resim yüklendi " + p0!!.getResult().downloadUrl.toString(),Toast.LENGTH_SHORT).show()
+
+                                    mDatabaseRef.child("users").child(gelenKullaniciBilgileri!!.user_id).child("user_detail").child("profile_picture")
+                                        .setValue(p0!!.getResult().downloadUrl.toString())
+                                    profilGuncellendiMi=true
+
+                                    dialogYukleniyor.dismiss()
                             }
                         }
 
