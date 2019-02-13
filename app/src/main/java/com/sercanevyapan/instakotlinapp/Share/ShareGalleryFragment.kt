@@ -8,10 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 
 import com.sercanevyapan.instakotlinapp.R
 import com.sercanevyapan.instakotlinapp.utils.DosyaIslemleri
+import com.sercanevyapan.instakotlinapp.utils.ShareActivityGridViewAdapter
 import kotlinx.android.synthetic.main.fragment_share_gallery.*
 import kotlinx.android.synthetic.main.fragment_share_gallery.view.*
 
@@ -28,15 +30,17 @@ class ShareGalleryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var view = inflater.inflate(R.layout.fragment_share_gallery, container, false)
+        var view:View = inflater.inflate(R.layout.fragment_share_gallery, container, false)
 
         var klasorPaths=ArrayList<String>()
         var klasorAdlari=ArrayList<String>()
 
-        var root = Environment.getExternalStorageDirectory().path
-        var kameraResimleri = root+"/DCIM/Camera"
-        var indirilenResimler = root+"/Download"
-        var whatsappResimleri = root+"/WhatsApp/Media/WhatsApp Images"
+        var root:String  = Environment.getExternalStorageDirectory().path
+        Log.e("HATA",root)
+
+        var kameraResimleri:String = root+"/DCIM/Camera"
+        var indirilenResimler:String  = root+"/Download"
+        var whatsappResimleri:String  = root+"/WhatsApp/Media/WhatsApp Images"
 
         klasorPaths.add(kameraResimleri)
         klasorPaths.add(indirilenResimler)
@@ -46,16 +50,31 @@ class ShareGalleryFragment : Fragment() {
         klasorAdlari.add("İndirilenler")
         klasorAdlari.add("Whatsapp")
 
-        var spinnerArrayAdapter=ArrayAdapter(activity,android.R.layout.simple_spinner_item, klasorAdlari)
+        var spinnerArrayAdapter:ArrayAdapter<String> = ArrayAdapter(activity,android.R.layout.simple_spinner_item, klasorAdlari)
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         view.spnKalsorAdlari.adapter=spinnerArrayAdapter
 
-        var klasordekiDosyalar=DosyaIslemleri.klasordekiDosyalariGetir(kameraResimleri)
+        view.spnKalsorAdlari.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
 
-        for(str in klasordekiDosyalar){
-            Log.e("HATA",str)
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                var klasordekiDosyalar : ArrayList<String> = DosyaIslemleri.klasordekiDosyalariGetir(klasorPaths.get(position))
+
+                var gridAdapter= ShareActivityGridViewAdapter(activity!!,R.layout.tek_sutun_grid_resim,klasordekiDosyalar)
+
+                gridResimler.adapter=gridAdapter
+
+                /*for(str:String in klasordekiDosyalar){
+                    Log.e("HATA",str)
+                }*/
+            }
+
         }
+
 
         return view
     }
