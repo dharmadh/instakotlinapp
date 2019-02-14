@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".Login.EmailGirisYontemiFragment">
+
+
+    <TextView
+            android:text="AD VE ŞİFRE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView24" android:textSize="16sp"
+            android:textStyle="bold" android:textColor="@color/siyah" android:layout_marginTop="64dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/etAdSoyad"
+            android:hint="Adın ve soyadın" android:layout_marginTop="32dp"
+            android:background="@drawable/register_edit_text"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView24" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/etSifreLogin" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/etAdSoyad" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent" android:hint="Şifre"
+            android:background="@drawable/register_edit_text"
+            android:padding="16dp"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:background="@drawable/register_edit_text"
+            android:padding="16dp"
+            android:id="@+id/etKullaniciAdi" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/etSifreLogin" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent" android:hint="Kullanıcı adı"/>
+    <Button
+            android:text="Giriş"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/register_button"
+            android:textAllCaps="false"
+            android:textColor="@color/mavi"
+            android:enabled="false"
+            android:id="@+id/btnGiris" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/etKullaniciAdi" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"/>
+
+    <View android:layout_width="0dp"
+          android:layout_height="2dp"
+          android:id="@+id/golgelik"
+          android:background="@color/golgelik"
+          app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+          app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+          android:layout_marginBottom="50dp"
+          app:layout_constraintBottom_toBottomOf="parent"></View>
+    <TextView
+            android:text="Hesabınız zaten var mı?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="80dp"
+            app:layout_constraintEnd_toStartOf="@+id/tvGirisYap" android:layout_marginEnd="24dp"/>
+    <TextView
+            android:text="Giriş Yap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvGirisYap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/siyah"
+            android:layout_marginEnd="80dp" app:layout_constraintEnd_toEndOf="parent"/>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pbKullaniciKayit" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnGiris" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:visibility="invisible"/>
+</android.support.constraint.ConstraintLayout>

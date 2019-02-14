@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "763418932348",
+    "firebase_url": "https://instagramapp-a6b95.firebaseio.com",
+    "project_id": "instagramapp-a6b95",
+    "storage_bucket": "instagramapp-a6b95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763418932348:android:6f055bd892d7a7c3",
+        "android_client_info": {
+          "package_name": "com.sercanevyapan.instagramapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763418932348-0tkfp57umjnbqtioch3cqg1hvvhiqnk0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sercanevyapan.instagramapp",
+            "certificate_hash": "f6320bf1b993dad892630cf6034afa7542f2f255"
+          }
+        },
+        {
+          "client_id": "763418932348-rcekqrvq7ui4pq75mqr7ul323rh44pis.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzWupjfK1RGG52Xd6v430SeD5T9FlbNq0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763418932348-rcekqrvq7ui4pq75mqr7ul323rh44pis.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763418932348:android:02fedeb00e8ca42c",
+        "android_client_info": {
+          "package_name": "com.sercanevyapan.instakotlinapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763418932348-ql7ls3tknvd205n7le17u1va8d3n6sk4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sercanevyapan.instakotlinapp",
+            "certificate_hash": "505e7c3fa74e19ffe54aa73c2a64751a74303f2c"
+          }
+        },
+        {
+          "client_id": "763418932348-t57d3h561j7hh0fidba1auuq97andua6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sercanevyapan.instakotlinapp",
+            "certificate_hash": "f6320bf1b993dad892630cf6034afa7542f2f255"
+          }
+        },
+        {
+          "client_id": "763418932348-rcekqrvq7ui4pq75mqr7ul323rh44pis.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzWupjfK1RGG52Xd6v430SeD5T9FlbNq0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763418932348-rcekqrvq7ui4pq75mqr7ul323rh44pis.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
